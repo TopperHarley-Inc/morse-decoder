@@ -38,7 +38,43 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let codedString = expr;
+    let tenSymbolsText = '';
+    let twoSymbolsText = '';
+    let decodedText = '';
+    let morseWord = '';
+    let morseSymbol = '';
+    let morseText = '';
+
+    for (i = 0; i < codedString.length / 10;) {
+        tenSymbolsText = codedString.substring(codedString.length - 10);
+        codedString = codedString.slice(0, -10);
+
+        if (tenSymbolsText === '**********') {
+            decodedText = ' ' + decodedText;
+        }
+
+        else {
+            for (n = 0; n < 5 ; n++) {
+                twoSymbolsText = tenSymbolsText.substring(tenSymbolsText.length - 2);
+                tenSymbolsText = tenSymbolsText.slice(0, -2);
+
+                morseSymbol = '';
+
+                if (twoSymbolsText === '10') {
+                    morseSymbol = '.';
+                    morseWord = morseSymbol + morseWord;
+                }
+                if (twoSymbolsText === '11') {
+                    morseSymbol = '-';
+                    morseWord = morseSymbol + morseWord;
+                }
+            }
+            decodedText = MORSE_TABLE[morseWord] + decodedText;
+            morseWord = '';
+        }
+    }
+    return decodedText;
 }
 
 module.exports = {
